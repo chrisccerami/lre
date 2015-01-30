@@ -20,5 +20,13 @@
   <%= @animal.color %>
 </p>
 
+<p>
+  <strong>Caretakers:</strong>
+  <% @animal.employees.each do |employee| %>
+    <%= employee.name %>
+  <% end %>
+</p>
+
+<%= link_to 'Add caretaker', new_animal_caretaker_path(@animal) %>
 <%= link_to 'Edit', edit_animal_path(@animal) %> |
 <%= link_to 'Back', animals_path %>

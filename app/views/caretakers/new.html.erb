@@ -1,0 +1,6 @@
+<%= form_for [@animal, @caretaker] do |f| %>
+  <%= f.label :employee_id %>
+  <%= f.collection_select(:employee_id, Employee.all, :id, :name) %>
+
+  <%= f.submit %>
+<% end %>
