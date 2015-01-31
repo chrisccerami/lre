@@ -1,5 +1,6 @@
 class AnimalsController < ApplicationController
   before_action :set_animal, only: [:show, :edit, :update, :destroy]
+  caches_page :index, :show
 
   # GET /animals
   # GET /animals.json
@@ -29,7 +30,7 @@ class AnimalsController < ApplicationController
     respond_to do |format|
       if @animal.save
         AnimalMailer.new_animal_created_email(@animal, "test@example.com").deliver_now
-
+        expire_page action: 'index'
         format.html { redirect_to @animal, notice: 'Animal was successfully created.' }
         format.json { render :show, status: :created, location: @animal }
       else
@@ -44,6 +45,7 @@ class AnimalsController < ApplicationController
   def update
     respond_to do |format|
       if @animal.update(animal_params)
+        expire_page action: 'show'
         format.html { redirect_to @animal, notice: 'Animal was successfully updated.' }
         format.json { render :show, status: :ok, location: @animal }
       else

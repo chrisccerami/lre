@@ -1,5 +1,6 @@
 class EmployeesController < ApplicationController
   before_action :set_employee, only: [:show, :edit, :update, :destroy]
+  caches_page :index, :show
 
   # GET /employees
   # GET /employees.json
@@ -28,6 +29,7 @@ class EmployeesController < ApplicationController
 
     respond_to do |format|
       if @employee.save
+        expire_page action: 'index'
         format.html { redirect_to @employee, notice: 'Employee was successfully created.' }
         format.json { render :show, status: :created, location: @employee }
       else
@@ -42,6 +44,7 @@ class EmployeesController < ApplicationController
   def update
     respond_to do |format|
       if @employee.update(employee_params)
+        expire_page action: 'show'
         format.html { redirect_to @employee, notice: 'Employee was successfully updated.' }
         format.json { render :show, status: :ok, location: @employee }
       else
